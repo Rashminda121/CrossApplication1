@@ -1,0 +1,11 @@
+# Ignore Node.js dependencies for frontend
+/frontend/node_modules/
+# Ignore build directory for frontend
+/frontend/build/
+
+# Ignore build artifacts for backend (e.g., Java/Spring Boot)
+/backend/target/
+
+# General ignores
+*.log
+*.env
