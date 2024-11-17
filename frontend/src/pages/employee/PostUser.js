@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./PostUser.css";
 import { Button, Form } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 
 const PostUser = () => {
   const [formData, setFormData] = useState({
@@ -19,10 +20,33 @@ const PostUser = () => {
     });
   };
 
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    // console.log(formData);
+
+    try {
+      const response = await fetch("http://localhost:8080/api/employee", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+      console.log("Employee Created: ", data);
+
+      navigate("/");
+    } catch (error) {
+      console.log("Error creating employee: ", error.message);
+    }
+  };
+
   return (
     <div className="center-form">
       <h1 className="text-3xl p-10">Add New Employee</h1>
-      <Form className="w-1/3">
+      <Form onSubmit={handleSubmit} className="w-1/3">
         <Form.Group controlId="formBasicName">
           <Form.Control
             type="text"
@@ -59,7 +83,7 @@ const PostUser = () => {
             onChange={handleInputChange}
           />
         </Form.Group>
-        <Button variant="primary" type="submit" className="w-100">
+        <Button variant="secondary" type="submit" className="w-100">
           Add Employee
         </Button>
       </Form>
